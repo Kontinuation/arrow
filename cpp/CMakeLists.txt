@@ -583,6 +583,10 @@ include_directories(src)
 # Compiled flatbuffers files
 include_directories(src/generated)
 
+# JNI
+find_package(JNI REQUIRED)
+include_directories(${JNI_INCLUDE_DIRS} ${JNI_HEADERS_DIR})
+
 #
 # Visibility
 #

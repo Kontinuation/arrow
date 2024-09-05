@@ -107,17 +107,23 @@ struct ExportedSchemaPrivateData : PoolAllocationMixin<ExportedSchemaPrivateData
 };
 
 void ReleaseExportedSchema(struct ArrowSchema* schema) {
+  printf("Releasing schema, address: %ld\n", reinterpret_cast<long>(schema));
+  fflush(stdout);
   if (ArrowSchemaIsReleased(schema)) {
     return;
   }
   for (int64_t i = 0; i < schema->n_children; ++i) {
     struct ArrowSchema* child = schema->children[i];
+    printf("Releasing child schema, address: %ld\n", reinterpret_cast<long>(child));
+    fflush(stdout);    
     ArrowSchemaRelease(child);
     DCHECK(ArrowSchemaIsReleased(child))
         << "Child release callback should have marked it released";
   }
   struct ArrowSchema* dict = schema->dictionary;
   if (dict != nullptr) {
+    printf("Releasing dict schema, address: %ld\n", reinterpret_cast<long>(dict));
+    fflush(stdout);    
     ArrowSchemaRelease(dict);
     DCHECK(ArrowSchemaIsReleased(dict))
         << "Dictionary release callback should have marked it released";
@@ -542,17 +548,23 @@ struct ExportedArrayPrivateData : PoolAllocationMixin<ExportedArrayPrivateData> 
 };
 
 void ReleaseExportedArray(struct ArrowArray* array) {
+  printf("Releasing array, address: %ld\n", reinterpret_cast<long>(array));
+  fflush(stdout);
   if (ArrowArrayIsReleased(array)) {
     return;
   }
   for (int64_t i = 0; i < array->n_children; ++i) {
     struct ArrowArray* child = array->children[i];
+    printf("Releasing child array, address: %ld\n", reinterpret_cast<long>(child));
+    fflush(stdout);
     ArrowArrayRelease(child);
     DCHECK(ArrowArrayIsReleased(child))
         << "Child release callback should have marked it released";
   }
   struct ArrowArray* dict = array->dictionary;
   if (dict != nullptr) {
+    printf("Releasing dict array, address: %ld\n", reinterpret_cast<long>(dict));
+    fflush(stdout);    
     ArrowArrayRelease(dict);
     DCHECK(ArrowArrayIsReleased(dict))
         << "Dictionary release callback should have marked it released";

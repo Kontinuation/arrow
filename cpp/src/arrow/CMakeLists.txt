@@ -390,6 +390,7 @@ set(ARROW_SRCS
     type_traits.cc
     visitor.cc
     c/bridge.cc
+    c/tmp_java_bridge.cc
     c/dlpack.cc)
 
 arrow_add_object_library(ARROW_ARRAY
